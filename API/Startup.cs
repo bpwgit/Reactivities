@@ -27,32 +27,53 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(opt =>
+            services.AddDbContext<DataContext>(opt => 
             {
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
-            
-            services.AddControllers();
+         
+              services.AddCors(opt => {
+                opt.AddPolicy("CorsPolicy", policy  =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+                });
+            });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            } 
+            else
+            {
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                // app.UseHsts();
             }
-
-            //app.UseHttpsRedirection();
-
+ 
+           // app.UseHttpsRedirection();
+            //app.UseMvc(); 
+ 
             app.UseRouting();
-
-            app.UseAuthorization();
-
+ 
+            app.UseCors("CorsPolicy");
+            //app.UseMvc(); 
+ 
+           
+            //app.UseAuthorization();
+ 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+               endpoints.MapControllers();
             });
+             
+ 
+ 
+           
         }
     }
 }
+ 
