@@ -1,5 +1,4 @@
-﻿using System;
-using Domain;
+﻿using Domain;
 using Microsoft.EntityFrameworkCore;
 //Hover over names to know what it does. 
 
@@ -20,6 +19,8 @@ namespace Persistence
         //Value is the entity we created in Domain, and Values is the name of the table. 
 
         public DbSet<Value> Values { get; set; }
+
+        public DbSet<Activity> Activities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

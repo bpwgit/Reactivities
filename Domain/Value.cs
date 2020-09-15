@@ -1,5 +1,4 @@
 ﻿//Domain Entity
-using System;
 
 namespace Domain
 {
